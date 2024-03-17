@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Huffman Code | Only and Just for Fun</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Huffman Code" />
+<meta name="author" content="Taiki Okano" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Huffman Tree" />
+<meta property="og:description" content="Huffman Tree" />
+<link rel="canonical" href="http://localhost:4000/2023/01/31/huffman-code.html" />
+<meta property="og:url" content="http://localhost:4000/2023/01/31/huffman-code.html" />
+<meta property="og:site_name" content="Only and Just for Fun" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-31T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Huffman Code" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Taiki Okano"},"dateModified":"2023-01-31T00:00:00+01:00","datePublished":"2023-01-31T00:00:00+01:00","description":"Huffman Tree","headline":"Huffman Code","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/01/31/huffman-code.html"},"url":"http://localhost:4000/2023/01/31/huffman-code.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Only and Just for Fun" /></head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Only and Just for Fun</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+
+    <h1 class="post-title p-name" itemprop="name headline">Huffman Code</h1>
+
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-31T00:00:00+01:00" itemprop="datePublished">
+        Jan 31, 2023
+      </time></p>
+
+    <span>[
+      
+    ]</span>
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="huffman-tree">Huffman Tree</h1>
+
+<p>I got a homework of Huffman Tree for a Information Theory course in the uni, so wrote a script for that.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="k">class</span> <span class="nc">Tree</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">prob</span> <span class="o">=</span> <span class="n">prob</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">children</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">symbol</span><span class="si">}</span><span class="s">(</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">prob</span><span class="si">}</span><span class="s">)"</span>
+
+        <span class="k">return</span> <span class="s">"["</span> <span class="o">+</span> <span class="s">", "</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">children</span><span class="p">])</span> <span class="o">+</span> <span class="s">"]"</span>
+
+    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s">""</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">children</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="p">.</span><span class="n">symbol</span><span class="p">:</span> <span class="n">code</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="p">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_table</span><span class="p">(</span><span class="n">code</span> <span class="o">+</span> <span class="s">'0'</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="p">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">get_table</span><span class="p">(</span><span class="n">code</span> <span class="o">+</span> <span class="s">'1'</span><span class="p">)}</span>
+
+<span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tree</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">m</span><span class="p">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s">"(\w)\((\d*(?:\.\d*)*?)\)"</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">().</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)]]</span>
+
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+
+    <span class="n">symbols</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">prob</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">symbols</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">symbols</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tree</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">prob</span> <span class="o">+</span> <span class="n">b</span><span class="p">.</span><span class="n">prob</span><span class="p">,</span> <span class="sa">f</span><span class="s">"[</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s">]"</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">pprint</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_table</span><span class="p">())</span>
+
+</code></pre></div></div>
+
+<p>The input is shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A(7.8),B(2),C(4),D(3.8),E(11),F(1.4),G(3),H(2.3),I(8.6),J(0.21),K(0.97),L(5.3),M(2.7),N(7.2),O(6.1),P(2.8),Q(0.19),R(7.3),S(8.7),T(6.7),U(3.3),V(1),W(0.91),X(0.27),Y(1.6),Z(0.44)
+</code></pre></div></div>
+
+<p>With the script above, the result below is acquired.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[[S(8.7), [[[V(1.0), [Z(0.44), [X(0.27), [Q(0.19), J(0.21)]]]], H(2.3)], L(5.3)]], [E(11.0), [[M(2.7), P(2.8)], [G(3.0), [F(1.4), Y(1.6)]]]]], [[[O(6.1), T(6.7)], [[U(3.3), D(3.8)], N(7.2)]], [[R(7.3), A(7.8)], [[[[W(0.91), K(0.97)], B(2.0)], C(4.0)], I(8.6)]]]]
+{'A': '1101',
+ 'B': '111001',
+ 'C': '11101',
+ 'D': '10101',
+ 'E': '010',
+ 'F': '011110',
+ 'G': '01110',
+ 'H': '00101',
+ 'I': '1111',
+ 'J': '001001111',
+ 'K': '1110001',
+ 'L': '0011',
+ 'M': '01100',
+ 'N': '1011',
+ 'O': '1000',
+ 'P': '01101',
+ 'Q': '001001110',
+ 'R': '1100',
+ 'S': '000',
+ 'T': '1001',
+ 'U': '10100',
+ 'V': '001000',
+ 'W': '1110000',
+ 'X': '00100110',
+ 'Y': '011111',
+ 'Z': '0010010'}
+</code></pre></div></div>
+
+<p>From the code above, <strong>ASSESS</strong> is <strong>1101,000,000,010,000,000</strong> (Total 19 bit) and <strong>WHY</strong> is <strong>1110000,00101,011111</strong> (Total 18 bit)</p>
+
+<p>Therefore, the code <strong>WHY</strong> is a bit shorter, but it is not that different. For <strong>WHY</strong>, it is shorter to use uniform codes (26 alphabets letters -&gt; 5 bit for one letter -&gt; 15 bit).</p>
+
+  </div><a class="u-url" href="/2023/01/31/huffman-code.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Only and Just for Fun</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Taiki Okano</li><li><a class="u-email" href="mailto:taiki@okano.tokyo">taiki@okano.tokyo</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/taiki-okano"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">taiki-okano</span></a></li><li><a href="https://www.twitter.com/taiki_okano"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">taiki_okano</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This is a blog of Taiki, but maybe he is too lazy to post things here.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
