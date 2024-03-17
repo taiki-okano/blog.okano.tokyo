@@ -31,7 +31,6 @@ github_username: taiki-okano
 # Build settings
 plugins:
   - jekyll-feed
-  - jekyll-admin
   - jekyll-tagging
 theme: minima
 
