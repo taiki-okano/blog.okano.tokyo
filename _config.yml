@@ -20,7 +20,7 @@
 
 title: Only and Just for Fun
 author: Taiki Okano
-email: taiki@okano.tokyo
+email: blog@okano.tokyo
 description: >-
   This is a blog of Taiki, but maybe he is too lazy to post things here.
 baseurl: ""
@@ -29,12 +29,15 @@ twitter_username: taiki_okano
 github_username: taiki-okano
 
 # Build settings
-theme: minima
 plugins:
   - jekyll-feed
   - jekyll-admin
-minima:
-  skin: dark
+  - jekyll-tagging
+theme: minima
+
+tag_page_layout: tagpage
+tag_page_dir: tag
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
