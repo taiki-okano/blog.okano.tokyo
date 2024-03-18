@@ -1,6 +1,6 @@
 ---
 layout: post
-title : "The Zen of Python - JP Translation"
+title : "The Zen of Python - Japanese Translation"
 tags: computer programming jp
 ---
 
@@ -32,13 +32,13 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
 
-That states the principal and philosophy of Python or programming.
-This also reminds me a book ["The UNIX philosphy"](https://shop.elsevier.com/books/the-unix-philosophy/gancarz/978-0-08-094819-5) I read a while ago.
+This states the principal and philosophy of Python or programming.
+It also reminds me of a book ["The UNIX philosphy"](https://shop.elsevier.com/books/the-unix-philosophy/gancarz/978-0-08-094819-5) I read a while ago.
 And, it also made me think, what would be the translation of this.
 I can imagine translating this to other European languages, such as German, would not be complicated at all.
 But, when it comes to Japanese, it is totally a different story.
 Of course, I can translate word by word, but it would make this utterly ugly.
-You need to understand the original and its context deeply to be able to translate it to a language based on completely different culture.
+You need a deep understanding of the original and its context to accurately translate it into a language rooted in a completely different culture.
 I ended up in a translation below.
 
 ```
