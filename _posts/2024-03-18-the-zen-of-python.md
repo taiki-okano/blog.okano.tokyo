@@ -1,6 +1,6 @@
 ---
 layout: post
-title : "The Zen of Python - Japanese Translation"
+title : "The Zen of Python"
 tags: computer programming jp
 ---
 
