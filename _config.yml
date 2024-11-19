@@ -19,19 +19,26 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Only and Just for Fun
-author: Taiki Okano
-email: blog@okano.tokyo
 description: >-
   This is a blog of Taiki, but maybe he is too lazy to post things here.
 baseurl: ""
 url: "https://blog.okano.tokyo"
-github_username: taiki-okano
 
 # Build settings
 plugins:
   - jekyll-feed
   - jekyll-tagging
-theme: minima
+  - jekyll-remote-theme
+remote_theme: jekyll/minima
+
+author:
+  name: Taiki Okano
+  email: blog@okano.tokyo
+
+minima:
+  skin: auto
+  social_links:
+    - { platform: github,  user_url: "https://github.com/taiki-okano" }
 
 tag_page_layout: tagpage
 tag_page_dir: tag

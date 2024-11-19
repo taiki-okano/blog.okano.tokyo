@@ -8,12 +8,12 @@ source "https://rubygems.org"
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
 gem "jekyll"
-gem "minima"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "github-pages"
   gem "jekyll-feed"
   gem "jekyll-tagging"
+  gem "jekyll-remote-theme"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
