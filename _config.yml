@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Only and Just for Fun
+title: Just for Fun
 description: >-
   This is a blog of Taiki, but maybe he is too lazy to post things here.
 baseurl: ""
